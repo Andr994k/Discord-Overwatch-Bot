@@ -3,8 +3,6 @@ import discord
 import requests
 from bs4 import BeautifulSoup
 
-os.chdir("C:/Users/andre/Documents/GitHub/Discord bot")
-
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -48,8 +46,9 @@ async def on_message(message):
 
     if contents.startswith("!owcareer"):
        global careername
-       careername = contents[9:]
+       careername = contents[10:]
        URL = "https://overwatch.blizzard.com/en-gb/career/" + careername.replace("#","-") + "/"
+       print(URL)
        page = requests.get(URL)
        soup = BeautifulSoup(page.content, "html.parser")
        soupstr = str(soup)
@@ -57,6 +56,7 @@ async def on_message(message):
        f = open(careername + ".txt","w+")
        f.write(soupstr)
        f.close()
+       await message.channel.send(file=discord.File(careername + ".txt"))
            
 token = get_token()
 client.run(token)
