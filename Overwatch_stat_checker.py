@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-user = "NL2C-2193"
+user = "gedegustav-2101"
 
 URL = "https://overwatch.blizzard.com/en-gb/career/" + user + "/"
 
@@ -15,11 +15,19 @@ stats = soup.find_all(class_="category")
 statlist = []
 
 for stat in stats:
-    statelement = stat.find(class_="stat-item")
-    statelement.find_all("a", class_="name")
-    statelement = str(statelement)[39:]    
-    statelement = statelement[:-10]
-    statelement = statelement.split('</p><p class="value">')
+    statelement = stat.find(class_="content")
+    statelement = statelement.contents
+    #statelement = statelement[:-10]
+    statelement = str(statelement)
+    statelement = str(statelement.split('<div class="header"><p>'))
+    statelement = str(statelement.split('</p><p class="value">'))
+    statelement = str(statelement.split('</p></div>'))
+    statelement = str(statelement.split('<div class="stat-item"><p class="name">'))
+    raw = r"\\"
+    print(raw)
+    statelement = str(statelement.replace(raw, ""))
+
+    
     statlist.append(statelement)
 
 f = open(user + ".txt","w+")
