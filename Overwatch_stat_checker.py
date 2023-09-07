@@ -17,23 +17,25 @@ statlist = []
 for stat in stats:
     statelement = stat.find(class_="content")
     statelement = statelement.contents
-    #statelement = statelement[:-10]
     statelement = str(statelement)
     statelement = str(statelement.split('<div class="header"><p>'))
     statelement = str(statelement.split('</p><p class="value">'))
     statelement = str(statelement.split('</p></div>'))
     statelement = str(statelement.split('<div class="stat-item"><p class="name">'))
-    raw = r"\\"
+    raw = "\\"
     print(raw)
     statelement = str(statelement.replace(raw, ""))
-
-    
+    statelement = str(statelement.replace("\'", ""))
+    statelement = str(statelement.replace("'", ""))
+    statelement = str(statelement.replace(",", ""))
     statlist.append(statelement)
 
-f = open(user + ".txt","w+")
+
+f = open(user + ".py","w+")
 f.write(str(statlist))
 f.close()
 print(statlist)
+
 """
 souptext = soup.get_text()
 
