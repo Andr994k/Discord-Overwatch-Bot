@@ -1,4 +1,5 @@
 import requests
+import json
 from bs4 import BeautifulSoup
 
 user = "gedegustav-2101"
@@ -18,17 +19,21 @@ for stat in stats:
     statelement = stat.find(class_="content")
     statelement = statelement.contents
     statelement = str(statelement)
-    statelement = str(statelement.split('<div class="header"><p>'))
-    statelement = str(statelement.split('</p><p class="value">'))
-    statelement = str(statelement.split('</p></div>'))
-    statelement = str(statelement.split('<div class="stat-item"><p class="name">'))
-    raw = "\\"
-    print(raw)
-    statelement = str(statelement.replace(raw, ""))
+    statelement = str(statelement.replace('<div class="header"><p>', ""))
+    statelement = str(statelement.replace('</p><p class="value">', ""))
+    statelement = str(statelement.replace('</p></div>', ""))
+    statelement = str(statelement.replace('<div class="stat-item"><p class="name">', ""))
+    statelement = str(statelement.replace("\\", ""))
     statelement = str(statelement.replace("\'", ""))
     statelement = str(statelement.replace("'", ""))
-    statelement = str(statelement.replace(",", ""))
+    statelement = statelement.replace("0", "o0o")
     statlist.append(statelement)
+statlist = str(statlist)
+statlist = statlist.replace("'", '"')
+
+statlist = json.loads(statlist)
+statlist = str(statlist)
+statlist = statlist.replace(",", "")
 
 
 f = open(user + ".py","w+")
@@ -36,12 +41,11 @@ f.write(str(statlist))
 f.close()
 print(statlist)
 
-"""
-souptext = soup.get_text()
+fixedlist = []
+
+for key in statlist:
+    key = eval(key)
+    fixedlist.append(key)
 
 
-
-f = open("souptext" + ".txt","w+")
-f.write(str(souptext))
-f.close()
-"""
+#bitchass bullshit

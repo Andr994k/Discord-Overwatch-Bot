@@ -20,6 +20,8 @@ def get_token():
 async def on_ready():
     print("Connected!")
 
+def reverse(s):
+    return s[::-1]
 
 @client.event
 async def on_message(message):
@@ -33,8 +35,6 @@ async def on_message(message):
 
     if contents.startswith("!reverse"):
         rem = contents[8:]
-        def reverse(s):
-            return s[::-1]
         reverse_rem = reverse(rem)
         reply = "Du sendte: " + reverse_rem
         await message.channel.send(reply)
