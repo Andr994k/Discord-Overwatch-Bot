@@ -26,26 +26,10 @@ for stat in stats:
     statelement = str(statelement.replace("\\", ""))
     statelement = str(statelement.replace("\'", ""))
     statelement = str(statelement.replace("'", ""))
-    statelement = statelement.replace("0", "o0o")
     statlist.append(statelement)
-statlist = str(statlist)
-statlist = statlist.replace("'", '"')
-
-statlist = json.loads(statlist)
-statlist = str(statlist)
-statlist = statlist.replace(",", "")
 
 
-f = open(user + ".py","w+")
+
+f = open(user + ".txt","w+")
 f.write(str(statlist))
 f.close()
-print(statlist)
-
-fixedlist = []
-
-for key in statlist:
-    key = eval(key)
-    fixedlist.append(key)
-
-
-#bitchass bullshit
