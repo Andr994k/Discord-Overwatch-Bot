@@ -1,5 +1,4 @@
 import requests
-import json
 from bs4 import BeautifulSoup
 
 user = "gedegustav-2101"
@@ -7,7 +6,6 @@ user = "gedegustav-2101"
 URL = "https://overwatch.blizzard.com/en-gb/career/" + user + "/"
 
 page = requests.get(URL)
-#print(page.text)
 
 soup = BeautifulSoup(page.content, "html.parser")
 
@@ -29,7 +27,42 @@ for stat in stats:
     statlist.append(statelement)
 
 
+stringcounter = 0
+fixedlist = {}
+string = ""
+numberstringcounter = 0
+for key in statlist:
+    for value in key:
+        if value == ",":
+            stringcounter += 1
+            if stringcounter == 1:
+                Title = string
+                string = ""
+            if stringcounter >= 2:
+                string = string.replace(", ", "")
+                fixedlist[string] = numberstorage
+                string = ""
+                numberstorage = ""
+                numberstringcounter = 0
+        if value.isdigit() or value == ":":
+            if numberstringcounter == 0:
+                numberstorage = value
+                numberstringcounter += 1
+            else:
+                numberstorage = (numberstorage + value)
+        if value == "]":
+            stringcounter = 0
+        else:
+            string = (string + value)
 
-f = open(user + ".txt","w+")
-f.write(str(statlist))
+# Get a list of the dictionary's items (key-value pairs)
+items = list(fixedlist.items())
+
+# Access the item at index 0
+index = 0
+key, value = items[index]
+
+print(key, value)
+f = open("dict" + ".txt","w+")
+f.write(f"{fixedlist}")
 f.close()
