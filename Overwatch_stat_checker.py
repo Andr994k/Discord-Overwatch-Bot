@@ -37,6 +37,7 @@ for key in statlist:
             stringcounter += 1
             if stringcounter == 1:
                 Title = string
+                Title = Title.replace("[", "")
                 string = ""
             if stringcounter >= 2:
                 string = string.replace(", ", "")
@@ -53,8 +54,10 @@ for key in statlist:
         if value == "]":
             stringcounter = 0
         else:
-            string = (string + value)
+            if value.isdigit() == False:
+                string = (string + value)
 
+"""
 # Get a list of the dictionary's items (key-value pairs)
 items = list(fixedlist.items())
 
@@ -63,6 +66,7 @@ index = 0
 key, value = items[index]
 
 print(key, value)
+"""
 f = open("dict" + ".txt","w+")
 f.write(f"{fixedlist}")
 f.close()
