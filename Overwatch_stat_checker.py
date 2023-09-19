@@ -54,8 +54,12 @@ for key in statlist:
         if value == "]":
             stringcounter = 0
         else:
-            if value.isdigit() == False:
-                string = (string + value)
+            string = (string + value)
+            #if value.isdigit() == False:
+                
+            
+
+
 
 """
 # Get a list of the dictionary's items (key-value pairs)
