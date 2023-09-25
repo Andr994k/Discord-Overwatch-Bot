@@ -15,7 +15,7 @@ fixedlist = {}
 
 #String to list converter
 def Convert(string):
-    li = list(string.split(" "))
+    li = list(string.split(","))
     return li
 
 herolist = ["Ana", "Ashe", "Baptiste", "Bastion", "Brigitte", "Cassidy",
@@ -28,46 +28,59 @@ herolist = ["Ana", "Ashe", "Baptiste", "Bastion", "Brigitte", "Cassidy",
                          "Widowmaker", "Winston", "Wrecking Ball", "Zarya", "Zenyatta"]
 
 heroes = {
-    "0": "Ana",
-    "1": "Ashe",
-    "2": "Baptiste",
-    "3": "Bastion",
-    "4": "Brigitte",
-    "5": "Cassidy",
-    "6": "D.va",
-    "7": "Doomfist",
-    "8": "Echo",
-    "9": "Genji",
-    "10": "Hanzo",
-    "11": "Illari",
-    "12": "Junker Queen",
-    "13": "Junkrat",
-    "14": "Kiriko",
-    "15": "Lifeweaver",
-    "16": "Lucio",
-    "17": "Mei",
-    "18": "Mercy",
-    "19": "Moira",
-    "20": "Orisa",
-    "21": "Pharah",
-    "22": "Ramattra",
-    "23": "Reaper",
-    "24": "Reinhardt",
-    "25": "Roadhog",
-    "26": "Sigma",
-    "27": "Sojourn",
-    "28": "Soldier: 76",
-    "29": "Sombra",
-    "30": "Symmetra",
-    "31": "Törbjorn",
-    "32": "Tracer",
-    "33": "Widowmaker",
-    "34": "Winston",
-    "35": "Wrecking Ball",
-    "36": "Zarya",
-    "37": "Zenyatta"
+    "0": "All Heroes",
+    "1": "Ana",
+    "2": "Ashe",
+    "3": "Baptiste",
+    "4": "Bastion",
+    "5": "Brigitte",
+    "6": "Cassidy",
+    "7": "D.va",
+    "8": "Doomfist",
+    "9": "Echo",
+    "10": "Genji",
+    "11": "Hanzo",
+    "12": "Illari",
+    "13": "Junker Queen",
+    "14": "Junkrat",
+    "15": "Kiriko",
+    "16": "Lifeweaver",
+    "17": "Lucio",
+    "18": "Mei",
+    "19": "Mercy",
+    "20": "Moira",
+    "21": "Orisa",
+    "22": "Pharah",
+    "23": "Ramattra",
+    "24": "Reaper",
+    "25": "Reinhardt",
+    "26": "Roadhog",
+    "27": "Sigma",
+    "28": "Sojourn",
+    "29": "Soldier: 76",
+    "30": "Sombra",
+    "31": "Symmetra",
+    "32": "Törbjorn",
+    "33": "Tracer",
+    "34": "Widowmaker",
+    "35": "Winston",
+    "36": "Wrecking Ball",
+    "37": "Zarya",
+    "38": "Zenyatta"
 }
 
+DataDict = {}
+for key in heroes:
+    DataDict[key] = {}
+
+
+#Make a dictionary that contains the dictionary statlist, each character 
+#has their own statlist, so it is easily accessed
+#For example, the structure could be {HeroName: {Title: {Key: Value}}}
+
+print(DataDict)
+HeroCounter = -1
+StatCounter = 0
 for stat in stats:
     statelement = stat.find(class_="content")
     statelement = statelement.contents
@@ -82,7 +95,32 @@ for stat in stats:
     statelement = str(statelement.replace("]", ""))
     statelement = (statelement.replace("'", ""))
     statlist = Convert(statelement)
-    print(statlist)
+
+    for key in statlist:
+        if key == "Best":
+            HeroCounter += 1
+        if (key == "Best") or (key == "Average") or (key == "Combat") or (key == "Assists") or (key == "Game") or (key == "Match Awards"):
+            StatCounter = 0
+        if StatCounter == 0:
+            Title = key
+            StatCounter += 1
+        else:
+            if StatCounter == 1:
+                StatKey = key
+                StatCounter += 1
+            else:
+                StatValue = key 
+                StatCounter = 1
+                if HeroCounter < len(heroes):
+                    DataDict[str(HeroCounter)][Title] = {StatKey: StatValue}
+
+print(DataDict)
+
+
+
+
+
+"""
     for key in statlist:
         print(key)
         if (key == "Best") or (key == "Average") or (key == "Combat") or (key == "Assists") or (key == "Game") or (key == "Match Awards"):
@@ -92,21 +130,19 @@ for stat in stats:
                 hero = heroes[numbercounter]
                 fixedlist[Title + hero] = Title + hero
                 #Things to do:
-                #Make a dictionary that contains the dictionary statlist, each character has their own statlist, so it is easily accessed
-                #For example, the structure could be {HeroName: {Title: {Key: Value}}}
             else:
                 fixedlist[Title + 0] = Title + 0
         elif not key.isdigit():
             if counter == 0:
-                Key = key
+                statKey = key
             else:
                 statKey = (statKey + key)
                 counter = 1
         else:
             Value = key
             counter = 0
-            fixedlist[Key] = Value
-    print(statelement)
+            fixedlist[statKey] = Value
+            """
 
 """
 counter = 0
@@ -171,6 +207,6 @@ key, value = items[index]
 
 print(key, value)
 """
-f = open("dict" + ".txt","w+")
-f.write(f"{fixedlist}")
-f.close()
+#f = open("dict" + ".txt","w+")
+#f.write(f"{fixedlist}")
+#f.close()
