@@ -68,10 +68,6 @@ def Everything(name):
     for key, value in heroes.items():
         DataDict[value] = {}
 
-    #Make a dictionary that contains the dictionary statlist, each character 
-    #has their own statlist, so it is easily accessed
-    #For example, the structure could be {HeroName: {Title: {Key: Value}}}
-
     HeroCounter = 0
     StatCounter = 0
     for stat in stats:

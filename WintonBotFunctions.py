@@ -24,5 +24,5 @@ async def owcareer():
     careername = careername.replace("#", "-")
     careername = careername.replace(" ", "")
     Everything(careername)
-    await message.channel.send(file=discord.File(careername + ".txt"))
+    await message.channel.send(file=discord.File("./PlayerData/"+ careername + ".txt"))
     
