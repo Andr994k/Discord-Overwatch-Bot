@@ -1,6 +1,48 @@
 import requests
 from bs4 import BeautifulSoup
 
+heroes = {
+    "0": "All Heroes",
+    "1": "Ana",
+    "2": "Ashe",
+    "3": "Baptiste",
+    "4": "Bastion",
+    "5": "Brigitte",
+    "6": "Cassidy",
+    "7": "D.va",
+    "8": "Doomfist",
+    "9": "Echo",
+    "10": "Genji",
+    "11": "Hanzo",
+    "12": "Illari",
+    "13": "Junker Queen",
+    "14": "Junkrat",
+    "15": "Kiriko",
+    "16": "Lifeweaver",
+    "17": "Lucio",
+    "18": "Mei",
+    "19": "Mercy",
+    "20": "Moira",
+    "21": "Orisa",
+    "22": "Pharah",
+    "23": "Ramattra",
+    "24": "Reaper",
+    "25": "Reinhardt",
+    "26": "Roadhog",
+    "27": "Sigma",
+    "28": "Sojourn",
+    "29": "Soldier: 76",
+    "30": "Sombra",
+    "31": "Symmetra",
+    "32": "Törbjorn",
+    "33": "Tracer",
+    "34": "Widowmaker",
+    "35": "Winston",
+    "36": "Wrecking Ball",
+    "37": "Zarya",
+    "38": "Zenyatta"
+}
+
 def Everything(name):
     user = name
 
@@ -21,48 +63,8 @@ def Everything(name):
     def Convert(string):
         li = list(string.split(","))
         return li
+    
 
-    heroes = {
-        "0": "All Heroes",
-        "1": "Ana",
-        "2": "Ashe",
-        "3": "Baptiste",
-        "4": "Bastion",
-        "5": "Brigitte",
-        "6": "Cassidy",
-        "7": "D.va",
-        "8": "Doomfist",
-        "9": "Echo",
-        "10": "Genji",
-        "11": "Hanzo",
-        "12": "Illari",
-        "13": "Junker Queen",
-        "14": "Junkrat",
-        "15": "Kiriko",
-        "16": "Lifeweaver",
-        "17": "Lucio",
-        "18": "Mei",
-        "19": "Mercy",
-        "20": "Moira",
-        "21": "Orisa",
-        "22": "Pharah",
-        "23": "Ramattra",
-        "24": "Reaper",
-        "25": "Reinhardt",
-        "26": "Roadhog",
-        "27": "Sigma",
-        "28": "Sojourn",
-        "29": "Soldier: 76",
-        "30": "Sombra",
-        "31": "Symmetra",
-        "32": "Törbjorn",
-        "33": "Tracer",
-        "34": "Widowmaker",
-        "35": "Winston",
-        "36": "Wrecking Ball",
-        "37": "Zarya",
-        "38": "Zenyatta"
-    }
 
     DataDict = {}
     for key, value in heroes.items():

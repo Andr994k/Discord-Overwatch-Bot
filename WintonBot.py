@@ -18,25 +18,27 @@ def get_token():
 async def on_ready():
     print("Connected!")
 
-def reverse(s):
-    return s[::-1]
 
 @client.event
 async def on_message(message):
     contents = message.content
+    channel = message.channel
     
     if contents.startswith("!echo"):
-        echo()
-
+        await echo(channel, contents)
+        
     if contents.startswith("!reverse"):
-        reverse()
+        await reverse(channel, contents)
 
     if contents.startswith("!yell"):
-        yell()
+        await yell(channel, contents)
 
     if contents.startswith("!owcareer"):
-        owcareer()
-           
+        await owcareer(channel, contents)
+        f = open("./MessageData/messagecontent.txt","w+")
+        f.write(contents)
+        f.close()
+            
 token = get_token()
 client.run(token)
 

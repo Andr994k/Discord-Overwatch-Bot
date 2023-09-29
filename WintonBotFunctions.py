@@ -1,28 +1,30 @@
 import discord
 from Overwatch_stat_checker import Everything
 
-async def echo():
+def reversemessage(s):
+    return s[::-1]
+
+async def echo(channel, contents):
     rem = contents[5:]
     reply = "Du sendte: " + rem
-    await message.channel.send(reply)
+    await channel.send(reply)
 
-
-async def reverse():
+async def reverse(channel, contents):
     rem = contents[8:]
-    reverse_rem = reverse(rem)
+    reverse_rem = reversemessage(rem)
     reply = "Du sendte: " + reverse_rem
-    await message.channel.send(reply)
+    await channel.send(reply)
 
-async def yell():
+async def yell(channel, contents):
     rem = contents[5:]
     reply = rem + "!"
-    await message.channel.send(reply)
+    await channel.send(reply)
 
-async def owcareer():
+async def owcareer(channel, contents):
     global careername
     careername = contents[10:]
     careername = careername.replace("#", "-")
     careername = careername.replace(" ", "")
     Everything(careername)
-    await message.channel.send(file=discord.File("./PlayerData/"+ careername + ".txt"))
+    await channel.send(file=discord.File("./PlayerData/"+ careername + ".txt"))
     
