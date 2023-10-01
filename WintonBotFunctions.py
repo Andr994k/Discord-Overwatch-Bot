@@ -4,6 +4,9 @@ from Overwatch_stat_checker import Everything
 def reversemessage(s):
     return s[::-1]
 
+async def help(channel):
+    await channel.send(file=discord.File("./Templates/!help image (den er ikke done, så du må ikke være ond andreas. jeg skal nok gøre den flot, på et tidspunkt).png"))
+
 async def echo(channel, contents):
     rem = contents[5:]
     reply = "Du sendte: " + rem

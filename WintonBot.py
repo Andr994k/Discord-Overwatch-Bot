@@ -1,5 +1,5 @@
 import discord
-from WintonBotFunctions import echo, reverse, yell, owcareer
+from WintonBotFunctions import help, echo, reverse, yell, owcareer
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -23,6 +23,9 @@ async def on_ready():
 async def on_message(message):
     contents = message.content
     channel = message.channel
+    
+    if contents.startswith("!Help"):
+        await help(channel)
     
     if contents.startswith("!echo"):
         await echo(channel, contents)
