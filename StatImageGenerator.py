@@ -22,7 +22,6 @@ if ishero:
     herofile = herofile.read()
     herofile = herofile.replace("'", '"')
     herofile = herofile.replace(" -", "")
-    print(herofile)
     herofile = json.loads(herofile)
     
     # create an image
@@ -30,23 +29,32 @@ if ishero:
 
     # get a font
     # font Microsoft Sans Serif Almindelig
-    fnt = ImageFont.truetype("./Fonts/configalt-bold.otf", 35)
+    fnt = ImageFont.truetype("./Fonts/configalt-bold.otf", 32)
     # get a drawing context
     d = ImageDraw.Draw(out)
-
-
-
+    counter = 0
     ycoord = 578
     if heroname != "All Heroes":
-        for key in herofile[heroname]["Hero Specific"]:
+        for key, value in herofile[heroname]["Hero Specific"].items():
+            print(key, value)
             if "Avg per 10 Min" in key:
+                #Drawing the first key without "Avg per 10 min"
                 key = key.replace("Avg per 10 Min", "")
-                d.multiline_text((129, ycoord), key + "\n" + "Avg per 10 Min", font=fnt, fill=(255, 255, 255))
-                ycoord += 100
+                d.text((129, ycoord), key, font=fnt, fill=(255, 255, 255))
+                ycoord += 50
+                #Drawing "Avg per 10 Min"
+                d.text((129, ycoord), " Avg per 10 Min:", font=fnt, fill=(255, 255, 255))
+                #Drawing the first value
+                d.text((400, ycoord), value, font=fnt, fill=(255, 255, 255))
+                ycoord += 50
             else:
-                leftovers = key
-        d.multiline_text((130, ycoord), leftovers, font=fnt, fill=(255, 255, 255))
-
+                if counter == 0:
+                    leftoverkey = key
+                    leftovervalue = value
+                    counter +=1
+                    
+        d.multiline_text((130, ycoord), leftoverkey, font=fnt, fill=(255, 255, 255))
+        d.multiline_text((400, ycoord), leftovervalue, font=fnt, fill=(255, 255, 255))
 
 
     # draw multiline text
