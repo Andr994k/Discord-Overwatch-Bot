@@ -38,9 +38,7 @@ async def on_message(message):
 
     if contents.startswith("!owcareer"):
         await owcareer(channel, contents)
-        f = open("./MessageData/messagecontent.txt","w+")
-        f.write(contents)
-        f.close()
+
             
 token = get_token()
 client.run(token)

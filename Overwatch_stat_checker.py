@@ -52,7 +52,7 @@ def Everything(name):
 
     soup = BeautifulSoup(page.content, "html.parser")
 
-
+    #Make file of raw HTML data, mostly for showing
     f = open("./RawPlayerData/" + user + " RAW.txt","w+")
     f.write(str(soup))
     f.close()
@@ -63,8 +63,6 @@ def Everything(name):
     def Convert(string):
         li = list(string.split(","))
         return li
-    
-
 
     DataDict = {}
     for key, value in heroes.items():

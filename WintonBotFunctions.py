@@ -25,9 +25,14 @@ async def yell(channel, contents):
 
 async def owcareer(channel, contents):
     global careername
-    careername = contents[10:]
+    careername = contents
     careername = careername.replace("#", "-")
-    careername = careername.replace(" ", "")
+    f = open("./MessageData/messagecontent.txt","w+")
+    f.write(careername)
+    f.close()
+    careername = careername[10:]
+    careername = careername.split()
+    careername = careername[0]
     Everything(careername)
     await channel.send(file=discord.File("./PlayerData/"+ careername + ".txt"))
     
