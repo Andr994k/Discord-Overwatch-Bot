@@ -42,12 +42,11 @@ if ishero:
         originalxcoord = xcoord
         for key, value in herofile[heroname][category].items():
             if keysentence in key:
-                print(key, value)
-                #Drawing the first key without "Best in Game"
+                #Drawing the first key without the key sentence
                 key = key.replace(keysentence, "")
                 d.text((xcoord, ycoord), key, font=fnt, fill=(255, 255, 255))
                 ycoord += 50
-                #Drawing "Best in Game"
+                #Drawing the key sentence
                 d.text((xcoord, ycoord), " "+ keysentence + ":", font=fnt, fill=(255, 255, 255))
                 xcoord += 326
                 #Drawing the first value
@@ -65,39 +64,24 @@ if ishero:
         xcoord += 326
         d.multiline_text((xcoord, ycoord), leftovervalue, font=fnt, fill=(255, 255, 255), anchor="ra")
         xcoord = 129
+
+
     def insert_text_column_auto(xcoord, ycoord, category):
         originalxcoord = xcoord
-        linecounter = 0
-        secondcounter = 0
         counter = 0
-        nextline = False
-        for key, value in herofile[heroname][category].items():
-            for x in key:
-                if nextline == True:
-                    secondline = x
-                    
-                    
-                if x == " ":
-                    linecounter += 1
-                    if linecounter == 3: 
-                        nextline = True
-                else:
-                    if counter == 0:
-                        firstline = x
+        if " " in key:
+            for key, value in herofile[heroname][category].items():
+                for x in key:
+                    #print(key)
+                    if x == " ":
                         counter += 1
-                    elif counter == 1:
-                        firstline = firstline + x
-                    else:
-                        if secondcounter == 0:
-                            secondline = x
-                            secondcounter += 1
-                        else:
-                            secondline = secondline + x
-
-                    
-            print(firstline,secondline)
+                    if counter == 3:
+                        x = "\n"
+                        counter = 0
+        else:
+            
+            
             if keysentence in key:
-                print(key, value)
                 #Drawing the first key without "Best in Game"
                 key = key.replace(keysentence, "")
                 d.text((xcoord, ycoord), key, font=fnt, fill=(255, 255, 255))
@@ -150,7 +134,7 @@ if ishero:
         d.multiline_text((xcoord, ycoord), leftovervalue, font=fnt, fill=(255, 255, 255), anchor="ra")
         xcoord = 129
     insert_text_column_with_specifications(511,228,"Best", "Best in Game", "Most in Life")
-    insert_text_column_auto(129, 228, "Combat")
+    #insert_text_column_auto(129, 228, "Combat")
 
 
 
@@ -159,3 +143,30 @@ if ishero:
 
 out.save("test.png")
 out.show()
+
+
+
+#        linecounter = 0
+#        
+#        nextlinecounter = 0
+#        nextline = False
+#        for key, value in herofile[heroname][category].items():
+#            for x in key:
+#                if nextline == True:
+#                    if nextlinecounter == 0:
+#                        global secondline
+#                        secondline = x
+#                        nextlinecounter += 1
+#                    else:
+#                        secondline = (secondline + x)
+#                if x == " ":
+#                    linecounter += 1
+#                    if linecounter == 3: 
+#                        nextline = True
+#                else:
+#                    if counter == 0:
+#                        global firstline
+#                        firstline = x
+#                        counter += 1
+#                    elif counter == 1:
+#                        firstline = firstline + x
