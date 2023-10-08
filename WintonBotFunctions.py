@@ -1,5 +1,6 @@
 import discord
-from Overwatch_stat_checker import Everything
+from Overwatch_stat_checker import get_player_data
+from StatImageGenerator import image_generator
 
 def reversemessage(s):
     return s[::-1]
@@ -23,16 +24,10 @@ async def yell(channel, contents):
     reply = rem + "!"
     await channel.send(reply)
 
-async def owcareer(channel, contents):
-    global careername
-    careername = contents
-    careername = careername.replace("#", "-")
-    f = open("./MessageData/messagecontent.txt","w+")
-    f.write(careername)
-    f.close()
-    careername = careername[10:]
-    careername = careername.split()
-    careername = careername[0]
-    Everything(careername)
-    await channel.send(file=discord.File("./PlayerData/"+ careername + ".txt"))
+async def get_ow_career(interaction: discord.Interaction, user, hero):
+    user = user.replace("#", "-")
+    await get_player_data(user)
+    await image_generator(user, hero)
+    image = discord.File("./PlayerHeroPosters/" + user + "/" + hero + ".png")
+    await interaction.followup.send(file=image)
     

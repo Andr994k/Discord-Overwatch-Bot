@@ -43,7 +43,12 @@ heroes = {
     "38": "Zenyatta"
 }
 
-def Everything(name):
+#String to list converter
+async def convert(string):
+    li = list(string.split(","))
+    return li
+
+async def get_player_data(name):
     user = name
 
     URL = "https://overwatch.blizzard.com/en-gb/career/" + user + "/"
@@ -58,12 +63,6 @@ def Everything(name):
     f.close()
 
     stats = soup.find_all(class_="category")
-
-    #String to list converter
-    def Convert(string):
-        li = list(string.split(","))
-        return li
-
     DataDict = {}
     for key, value in heroes.items():
         DataDict[value] = {}
@@ -83,7 +82,7 @@ def Everything(name):
         statelement = str(statelement.replace("[", ""))
         statelement = str(statelement.replace("]", ""))
         statelement = (statelement.replace("'", ""))
-        statlist = Convert(statelement)
+        statlist = await convert(statelement)
         for key in statlist:
             if key == "Hero Specific":
                 HeroCounter += 1
