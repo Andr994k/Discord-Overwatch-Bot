@@ -4,6 +4,7 @@ import json
 import textwrap
 import os
 
+
 async def image_generator(user, hero):
 
     #Check if hero exists in dictionary
@@ -95,9 +96,13 @@ async def image_generator(user, hero):
         await insert_text_column_auto(1311, 228, "Assists")
         await insert_text_column_auto(1711, 228, "Combat")
         await insert_text_column_auto(2111, 228, "Game")
-    
+        d.text((30, 1390), "Stats retrieved from: https://overwatch.blizzard.com/en-gb/career/" + user + "/", font=fnt, fill=(255, 255, 255))
+        fnt = ImageFont.truetype("./Fonts/configalt-bold.ttf", 80)
+        d.text((550, 80), "Career-profile: " + user.replace("-", "#"), font=fnt, fill=(255, 255, 255))
     # If directory does not exist, create it
     if not os.path.exists("./PlayerHeroPosters/" + user):
         os.mkdir("./PlayerHeroPosters/" + user)
 
     out.save("./PlayerHeroPosters/" + user + "/" + hero + ".png")
+
+#image_generator("Colaskink-2607", "Ana")
