@@ -4,7 +4,6 @@ import json
 import textwrap
 import os
 
-
 async def image_generator(user, hero):
 
     #Check if hero exists in dictionary

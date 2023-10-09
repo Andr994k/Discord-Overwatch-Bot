@@ -48,17 +48,16 @@ async def convert(string):
     li = list(string.split(","))
     return li
 
-async def get_player_data(name):
-    user = name
+async def get_player_data(careername):
 
-    URL = "https://overwatch.blizzard.com/en-gb/career/" + user + "/"
+    URL = "https://overwatch.blizzard.com/en-gb/career/" + careername + "/"
 
     page = requests.get(URL)
 
     soup = BeautifulSoup(page.content, "html.parser")
-
+    
     #Make file of raw HTML data, mostly for showing
-    f = open("./RawPlayerData/" + user + " RAW.txt","w+")
+    f = open("./RawPlayerData/" + careername + " RAW.txt","w+")
     f.write(str(soup))
     f.close()
 
@@ -103,6 +102,6 @@ async def get_player_data(name):
                     if HeroCounter < len(heroes):
                         DataDict[heroes[str(HeroCounter)]][Title][StatKey] = StatValue
 
-    f = open("./PlayerData/" + user + ".txt","w+")
+    f = open("./PlayerData/" + careername + ".txt","w+")
     f.write(f"{DataDict}")
     f.close()

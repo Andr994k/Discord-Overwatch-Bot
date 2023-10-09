@@ -2,12 +2,12 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from WintonBotFunctions import help, echo, reverse, yell, get_ow_career
+from WintonBotFunctions import get_ow_career
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='/', intents=intents)
 
 TOK_FILE = "token.txt"
 
@@ -26,25 +26,6 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-
-@bot.event
-async def on_message(message):
-    contents = message.content
-    channel = message.channel
-    
-    if contents.startswith("!Help"):
-        await help(channel)
-    
-    if contents.startswith("!echo"):
-        await echo(channel, contents)
-        
-    if contents.startswith("!reverse"):
-        await reverse(channel, contents)
-
-    if contents.startswith("!yell"):
-        await yell(channel, contents)
-
-
 @bot.tree.command(name = "ow_career")
 @app_commands.describe(user = "The user to get the career of", hero = "The hero to get the stats of")
 async def ow_career(interaction: discord.Interaction, user: str, hero: str = "All Heroes"):
@@ -53,4 +34,3 @@ async def ow_career(interaction: discord.Interaction, user: str, hero: str = "Al
             
 token = get_token()
 bot.run(token)
-
