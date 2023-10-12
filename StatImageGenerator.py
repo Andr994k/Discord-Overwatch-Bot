@@ -5,7 +5,7 @@ import textwrap
 import os
 
 async def image_generator(user, hero):
-
+    hero = hero.lower()
     #Check if hero exists in dictionary
     #If true, run program
     is_hero = False
@@ -22,7 +22,7 @@ async def image_generator(user, hero):
         hero_file = hero_file.replace(" -", "")
         hero_file = json.loads(hero_file)
         # create an image
-        out = Image.open("./Templates/"+ hero.lower() +".png")
+        out = Image.open("./Templates/"+ hero +".png")
 
         # get a font
         # font Microsoft Sans Serif Almindelig
@@ -30,11 +30,12 @@ async def image_generator(user, hero):
         # get a drawing context
         d = ImageDraw.Draw(out)
 
-        async def insert_text_column_auto(x_coord, y_coord, category):
+        async def insert_text_column_auto(x_coord, y_coord, category, max_elements):
             original_x_coord = x_coord
             element_counter = 0
+            print(category)
             for key, value in hero_file[hero][category].items():
-                if element_counter == 11:
+                if element_counter == max_elements:
                     break
                 #Using textwrap library to automatically break up string if too long
                 if len(key) > 18:
@@ -63,38 +64,14 @@ async def image_generator(user, hero):
                 x_coord = original_x_coord
                 element_counter += 1
 
-        y_coord = 628
+        #y_coord = 628
         if hero != "All Heroes":
-            x_coord = 129
-            for key, value in hero_file[hero]["Hero Specific"].items():
-                if "Avg per 10 Min" in key:
-                    #Drawing the first key without "Avg per 10 min"
-                    key = key.replace("Avg per 10 Min", "")
-                    d.text((x_coord, y_coord), key, font=fnt, fill=(255, 255, 255))
-                    y_coord += 50
-                    #Drawing "Avg per 10 Min"
-                    d.text((x_coord, y_coord), " Avg per 10 Min:", font=fnt, fill=(255, 255, 255))
-                    #Drawing the first value
-                    x_coord += 326
-                    d.text((455, y_coord), value, font=fnt, fill=(255, 255, 255), anchor="ra")
-                    y_coord += 50
-                    x_coord = 129
-                else:
-                    if "Best in Game" in key:
-                        key = key.replace("Best in Game", "")
-                        leftover_key = key
-                        leftover_value = value
-            d.multiline_text((x_coord, y_coord), leftover_key, font=fnt, fill=(255, 255, 255))
-            y_coord += 50
-            d.multiline_text((x_coord, y_coord), " Best in Game:", font=fnt, fill=(255, 255, 255))
-            x_coord += 326
-            d.multiline_text((x_coord, y_coord), leftover_value, font=fnt, fill=(255, 255, 255), anchor="ra")
-            x_coord = 129
-        await insert_text_column_auto(511, 228, "Best")
-        await insert_text_column_auto(911, 228, "Average")
-        await insert_text_column_auto(1311, 228, "Assists")
-        await insert_text_column_auto(1711, 228, "Combat")
-        await insert_text_column_auto(2111, 228, "Game")
+            await insert_text_column_auto(129, 628, "Hero Specific", 7)
+        await insert_text_column_auto(511, 228, "Best", 11)
+        await insert_text_column_auto(911, 228, "Average", 11)
+        await insert_text_column_auto(2111, 228, "Game", 11)
+        await insert_text_column_auto(1711, 228, "Combat", 11)
+        await insert_text_column_auto(1311, 228, "Assists", 11)
         d.text((30, 1390), "Stats retrieved from: https://overwatch.blizzard.com/en-gb/career/" + user + "/", font=fnt, fill=(255, 255, 255))
         fnt = ImageFont.truetype("./Fonts/configalt-bold.ttf", 80)
         d.text((550, 80), "Career-profile: " + user.replace("-", "#"), font=fnt, fill=(255, 255, 255))
@@ -103,5 +80,3 @@ async def image_generator(user, hero):
         os.mkdir("./PlayerHeroPosters/" + user)
 
     out.save("./PlayerHeroPosters/" + user + "/" + hero + ".png")
-
-#image_generator("Colaskink-2607", "Ana")
