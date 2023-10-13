@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
-from Overwatch_stat_checker import heroes
+from Overwatch_stat_checker import herodict
 import json
 import textwrap
 import os
@@ -9,7 +9,7 @@ async def image_generator(user, hero):
     #Check if hero exists in dictionary
     #If true, run program
     is_hero = False
-    for x in heroes.values():
+    for x in herodict.values():
         if x == hero:
             is_hero = True
         else:
@@ -22,21 +22,17 @@ async def image_generator(user, hero):
         hero_file = hero_file.replace(" -", "")
         hero_file = json.loads(hero_file)
         # create an image
-        out = Image.open("./Templates/"+ hero +".png")
+        image = Image.open("./Templates/"+ hero +".png")
 
         # get a font
         # font Microsoft Sans Serif Almindelig
         fnt = ImageFont.truetype("./Fonts/configalt-bold.ttf", 32)
         # get a drawing context
-        d = ImageDraw.Draw(out)
+        d = ImageDraw.Draw(image)
 
         async def insert_text_column_auto(x_coord, y_coord, category, max_elements):
             original_x_coord = x_coord
             element_counter = 0
-            print(category)
-            print(hero_file)  # Add this line for debugging
-            print(hero_file.get(hero, {}))  # Add this line for debugging
-            print(hero_file.get(hero, {}).get(category, {}))  # Add this line for debugging
             for key, value in hero_file[hero][category].items():
                 if element_counter == max_elements:
                     break
@@ -57,9 +53,9 @@ async def image_generator(user, hero):
                     first_word = key
                     second_word = ""
                 #Draw key
-                d.multiline_text((x_coord, y_coord), first_word, font=fnt, fill=(255, 255, 255))
+                d.text((x_coord, y_coord), first_word, font=fnt, fill=(255, 255, 255))
                 y_coord += 50
-                d.multiline_text((x_coord, y_coord), second_word, font=fnt, fill=(255, 255, 255))
+                d.text((x_coord, y_coord), second_word, font=fnt, fill=(255, 255, 255))
                 x_coord += 326
                 #Draw value
                 d.text((x_coord, y_coord), value, font=fnt, fill=(255, 255, 255), anchor="ra")
@@ -72,20 +68,20 @@ async def image_generator(user, hero):
         #Insert text columns for each category
         await insert_text_column_auto(511, 228, "Best", 11)
         await insert_text_column_auto(911, 228, "Average", 11)
-        await insert_text_column_auto(2111, 228, "Game", 11)
-        await insert_text_column_auto(1711, 228, "Combat", 11)
         await insert_text_column_auto(1311, 228, "Assists", 11)
+        await insert_text_column_auto(1711, 228, "Combat", 11)
+        await insert_text_column_auto(2111, 228, "Game", 11)
 
         #insert source text
         d.text((30, 1390), "Stats retrieved from: https://overwatch.blizzard.com/en-gb/career/" + user + "/", font=fnt, fill=(255, 255, 255))
-        fnt = ImageFont.truetype("./Fonts/configalt-bold.ttf", 80)
-
+        d.text((2530, 1390), "Career-profile: " + user.replace("-", "#"), font=fnt, fill=(255, 255, 255), anchor="ra")
         #insert title text
-        d.text((550, 80), "Career-profile: " + user.replace("-", "#"), font=fnt, fill=(255, 255, 255))
+        fnt = ImageFont.truetype("./Fonts/configalt-bold.ttf", 80)
+        d.text((550, 80), hero.title(), font=fnt, fill=(255, 255, 255))
 
     # If directory does not exist for player, create it
     if not os.path.exists("./PlayerHeroPosters/" + user):
         os.mkdir("./PlayerHeroPosters/" + user)
 
     #save image inside player folder
-    out.save("./PlayerHeroPosters/" + user + "/" + hero + ".png")
+    image.save("./PlayerHeroPosters/" + user + "/" + hero + ".png")

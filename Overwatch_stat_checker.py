@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+"""
 heroes = {
     "0": "all heroes",
     "1": "ana",
@@ -42,14 +42,15 @@ heroes = {
     "37": "zarya",
     "38": "zenyatta"
 }
-
+"""
 #String to list converter
-def convert(string):
+async def convert(string):
     li = list(string.split(","))
     return li
 
+herodict = {}
 
-def get_player_data(careername):
+async def get_player_data(careername):
 
     URL = "https://overwatch.blizzard.com/en-gb/career/" + careername + "/"
 
@@ -61,34 +62,31 @@ def get_player_data(careername):
     f = open("./RawPlayerData/" + careername + " RAW.txt","w+")
     f.write(str(soup))
     f.close()
+    
     #Updating the heroes list to match the one on the website
-    heroesdata = soup.find_all(class_="Profile-heroSummary--header")
-    heroesdata = heroesdata[2]
-    heroesdata = str(heroesdata)
-    heroesdata = str(heroesdata.replace('<div class="Profile-heroSummary--header"><h2 class="Profile-heroSummary--heading">Career Stats</h2><select class="Profile-dropdown" data-dropdown-id="hero-dropdown" data-js="hero-select" is="blz-dropdown"><option option-id=',""))
-    heroesdata = str(heroesdata.replace('</option><option option-id=',","))
-    heroesdata = str(heroesdata.replace(' value=',","))
-    heroesdata = str(heroesdata.replace('>',""))
-    heroesdata = str(heroesdata.replace('</option</select</div',""))
-    heroesdata = str(heroesdata.replace('"',""))
-    datanumber = 1
-    heroesdata = convert(heroesdata)
-    for key in heroesdata[datanumber]:
-        for character in key:
-            if character.isdigit() or character == '"':
-                continue
-            else:
-                print(character)
-                key[] = key.replace(character,"")
-    datanumber += 2
-    print(heroesdata)
-    h = open("Heroesdatatest.txt","w+")
-    h.write(f"{heroesdata}")
-    h.close()
+    herodata = soup.find_all(class_="Profile-heroSummary--header")
+    herodata = herodata[2]
+    herodata = str(herodata)
+    herodata = str(herodata.replace('<div class="Profile-heroSummary--header"><h2 class="Profile-heroSummary--heading">Career Stats</h2><select class="Profile-dropdown" data-dropdown-id="hero-dropdown" data-js="hero-select" is="blz-dropdown"><option option-id=',""))
+    herodata = str(herodata.replace('</option><option option-id=',","))
+    herodata = str(herodata.replace(' value=',","))
+    herodata = str(herodata.replace('>',""))
+    herodata = str(herodata.replace('</option</select</div',""))
+    herodata = str(herodata.replace('"',""))
+    herodata = str(herodata.replace('ö',"o"))
+    herodata = str(herodata.replace('ú',"u"))
+    herodata = herodata.lower()
+    herodata = await convert(herodata)
+    herodata = herodata[::2]
+    index = 0
+    for key in herodata:
+        herodict[str(index)] = key
+        index += 1
 
+    #Create empty dictionaries in datadict to be filled with stats
     stats = soup.find_all(class_="category")
     DataDict = {}
-    for key, value in heroes.items():
+    for key, value in herodict.items():
         DataDict[value] = {}
 
     HeroCounter = 0
@@ -106,7 +104,7 @@ def get_player_data(careername):
         statelement = str(statelement.replace("[", ""))
         statelement = str(statelement.replace("]", ""))
         statelement = (statelement.replace("'", ""))
-        statlist = convert(statelement)
+        statlist = await convert(statelement)
         for key in statlist:
             if key == "Hero Specific":
                 HeroCounter += 1
@@ -114,8 +112,8 @@ def get_player_data(careername):
                 StatCounter = 0
             if StatCounter == 0:
                 Title = key
-                if HeroCounter < len(heroes):
-                    DataDict[heroes[str(HeroCounter)]][Title] = {}
+                if HeroCounter < len(herodict):
+                    DataDict[herodict[str(HeroCounter)]][Title] = {}
                 StatCounter += 1
             else:
                 if StatCounter == 1:
@@ -124,11 +122,9 @@ def get_player_data(careername):
                 else:
                     StatValue = key 
                     StatCounter = 1
-                    if HeroCounter < len(heroes):
-                        DataDict[heroes[str(HeroCounter)]][Title][StatKey] = StatValue
+                    if HeroCounter < len(herodict):
+                        DataDict[herodict[str(HeroCounter)]][Title][StatKey] = StatValue
 
     f = open("./PlayerData/" + careername + ".txt","w+")
     f.write(f"{DataDict}")
     f.close()
-
-get_player_data("Colaskink-2607")
