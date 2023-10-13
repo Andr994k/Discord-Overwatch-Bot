@@ -44,11 +44,12 @@ heroes = {
 }
 
 #String to list converter
-async def convert(string):
+def convert(string):
     li = list(string.split(","))
     return li
 
-async def get_player_data(careername):
+
+def get_player_data(careername):
 
     URL = "https://overwatch.blizzard.com/en-gb/career/" + careername + "/"
 
@@ -60,6 +61,30 @@ async def get_player_data(careername):
     f = open("./RawPlayerData/" + careername + " RAW.txt","w+")
     f.write(str(soup))
     f.close()
+    #Updating the heroes list to match the one on the website
+    heroesdata = soup.find_all(class_="Profile-heroSummary--header")
+    heroesdata = heroesdata[2]
+    heroesdata = str(heroesdata)
+    heroesdata = str(heroesdata.replace('<div class="Profile-heroSummary--header"><h2 class="Profile-heroSummary--heading">Career Stats</h2><select class="Profile-dropdown" data-dropdown-id="hero-dropdown" data-js="hero-select" is="blz-dropdown"><option option-id=',""))
+    heroesdata = str(heroesdata.replace('</option><option option-id=',","))
+    heroesdata = str(heroesdata.replace(' value=',","))
+    heroesdata = str(heroesdata.replace('>',""))
+    heroesdata = str(heroesdata.replace('</option</select</div',""))
+    heroesdata = str(heroesdata.replace('"',""))
+    datanumber = 1
+    heroesdata = convert(heroesdata)
+    for key in heroesdata[datanumber]:
+        for character in key:
+            if character.isdigit() or character == '"':
+                continue
+            else:
+                print(character)
+                key[] = key.replace(character,"")
+    datanumber += 2
+    print(heroesdata)
+    h = open("Heroesdatatest.txt","w+")
+    h.write(f"{heroesdata}")
+    h.close()
 
     stats = soup.find_all(class_="category")
     DataDict = {}
@@ -81,7 +106,7 @@ async def get_player_data(careername):
         statelement = str(statelement.replace("[", ""))
         statelement = str(statelement.replace("]", ""))
         statelement = (statelement.replace("'", ""))
-        statlist = await convert(statelement)
+        statlist = convert(statelement)
         for key in statlist:
             if key == "Hero Specific":
                 HeroCounter += 1

@@ -34,6 +34,9 @@ async def image_generator(user, hero):
             original_x_coord = x_coord
             element_counter = 0
             print(category)
+            print(hero_file)  # Add this line for debugging
+            print(hero_file.get(hero, {}))  # Add this line for debugging
+            print(hero_file.get(hero, {}).get(category, {}))  # Add this line for debugging
             for key, value in hero_file[hero][category].items():
                 if element_counter == max_elements:
                     break
@@ -64,19 +67,25 @@ async def image_generator(user, hero):
                 x_coord = original_x_coord
                 element_counter += 1
 
-        #y_coord = 628
-        if hero != "All Heroes":
+        if hero != "all heroes":
             await insert_text_column_auto(129, 628, "Hero Specific", 7)
+        #Insert text columns for each category
         await insert_text_column_auto(511, 228, "Best", 11)
         await insert_text_column_auto(911, 228, "Average", 11)
         await insert_text_column_auto(2111, 228, "Game", 11)
         await insert_text_column_auto(1711, 228, "Combat", 11)
         await insert_text_column_auto(1311, 228, "Assists", 11)
+
+        #insert source text
         d.text((30, 1390), "Stats retrieved from: https://overwatch.blizzard.com/en-gb/career/" + user + "/", font=fnt, fill=(255, 255, 255))
         fnt = ImageFont.truetype("./Fonts/configalt-bold.ttf", 80)
+
+        #insert title text
         d.text((550, 80), "Career-profile: " + user.replace("-", "#"), font=fnt, fill=(255, 255, 255))
-    # If directory does not exist, create it
+
+    # If directory does not exist for player, create it
     if not os.path.exists("./PlayerHeroPosters/" + user):
         os.mkdir("./PlayerHeroPosters/" + user)
 
+    #save image inside player folder
     out.save("./PlayerHeroPosters/" + user + "/" + hero + ".png")
