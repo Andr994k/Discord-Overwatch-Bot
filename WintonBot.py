@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from WintonBotFunctions import get_ow_career
+from WintonBotFunctions import get_ow_career, get_counter, randomize_role
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -31,6 +31,18 @@ async def on_ready():
 async def ow_career(interaction: discord.Interaction, user: str, hero: str = "All Heroes"):
     await interaction.response.defer()
     await get_ow_career(interaction, user, hero)
-            
+
+@bot.tree.command(name = "counter")
+@app_commands.describe(hero = "The hero you want to counter")
+async def counter(interaction: discord.Interaction, hero: str):
+    await interaction.response.defer()
+    await get_counter(interaction, hero)
+
+@bot.tree.command(name = "random_hero")
+@app_commands.describe(role = "The role you want a random hero from", roulette = "Whether or not you want to generate a full team of heroes, the chosen role will have no impact")
+async def random_hero(interaction: discord.Interaction, role: str = "all roles", roulette: bool = False):
+    await interaction.response.defer()
+    await randomize_role(interaction, role, roulette)
+
 token = get_token()
 bot.run(token)

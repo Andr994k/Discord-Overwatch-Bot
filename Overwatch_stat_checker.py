@@ -1,48 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-"""
-heroes = {
-    "0": "all heroes",
-    "1": "ana",
-    "2": "ashe",
-    "3": "baptiste",
-    "4": "bastion",
-    "5": "brigitte",
-    "6": "cassidy",
-    "7": "d.va",
-    "8": "doomfist",
-    "9": "echo",
-    "10": "genji",
-    "11": "hanzo",
-    "12": "illari",
-    "13": "junker queen",
-    "14": "junkrat",
-    "15": "kiriko",
-    "16": "lifeweaver",
-    "17": "lucio",
-    "18": "mei",
-    "19": "mercy",
-    "20": "moira",
-    "21": "orisa",
-    "22": "pharah",
-    "23": "ramattra",
-    "24": "reaper",
-    "25": "reinhardt",
-    "26": "roadhog",
-    "27": "sigma",
-    "28": "sojourn",
-    "29": "soldier 76",
-    "30": "sombra",
-    "31": "symmetra",
-    "32": "torbjorn",
-    "33": "tracer",
-    "34": "widowmaker",
-    "35": "winston",
-    "36": "wrecking ball",
-    "37": "zarya",
-    "38": "zenyatta"
-}
-"""
+
 #String to list converter
 async def convert(string):
     li = list(string.split(","))
