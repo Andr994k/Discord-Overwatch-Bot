@@ -2,7 +2,7 @@ import discord
 import random
 from Overwatch_stat_checker import get_player_data
 from StatImageGenerator import image_generator
-from VariousData import counters_data, StratList, TankList, DPSList, SuppList
+from VariousData import counters_data, TankList, DPSList, SuppList
 
 async def get_ow_career(interaction: discord.Interaction, user, hero):
     user = user.replace("#", "-")

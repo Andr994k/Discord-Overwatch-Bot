@@ -42,3 +42,5 @@ counters_data = {
 TankList = ["Dva", "Doomfist", "Junker Queen", "Orisa", "Ramattra", "Reinhardt", "Roadhog", "Sigma", "Winston", "Wrecking Ball", "Zarya"]
 DPSList = ["Ashe", "Bastion", "Cassidy", "Echo", "Genji", "Hanzo", "Junkrat", "Mei", "Pharah", "Reaper", "Soldier 76", "Sombra", "Sojourn", "Symmetra", "Torbjörn", "Tracer", "Widowmaker"]
 SuppList = ["Ana", "Baptiste", "Brigitte", "Illari", "Kiriko", "Lifeweaver", "Lucio", "Mercy", "Moira", "Zenyatta"]
+
+herolist = [TankList, DPSList, SuppList]
