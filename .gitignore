@@ -1,3 +1,4 @@
 /PlayerData
 /RawPlayerData
 /__pycache__
+.env
