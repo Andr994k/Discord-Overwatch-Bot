@@ -1,6 +1,8 @@
 import discord
+import os
 from discord import app_commands
 from discord.ext import commands
+from dotenv import load_dotenv
 
 from WintonBotFunctions import get_ow_career, get_counter, randomize_role
 
@@ -9,13 +11,9 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-TOK_FILE = "token.txt"
-
-def get_token():
-  tokfile = open(TOK_FILE, 'r')
-  token = tokfile.read()
-  tokfile.close()
-  return token
+#Load the .env file containing the token of our bot
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
 
 @bot.event
 async def on_ready():
@@ -44,5 +42,4 @@ async def random_hero(interaction: discord.Interaction, role: str = "all roles",
     await interaction.response.defer()
     await randomize_role(interaction, role, roulette)
 
-token = get_token()
-bot.run(token)
+bot.run(TOKEN)

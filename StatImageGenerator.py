@@ -87,4 +87,5 @@ async def image_generator(user, hero):
         os.mkdir("./PlayerHeroPosters/" + user)
 
     #save image inside player folder
+    print(herodict)
     image.save("./PlayerHeroPosters/" + user + "/" + hero + ".png")
